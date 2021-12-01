@@ -82,7 +82,7 @@ namespace PW2
             Solution_TextBox.Clear();
             bool prv_columns = Int32.TryParse(CountColumns_TextBox.Text, out int columns);
             bool prv_rows = Int32.TryParse(CountRows_TextBox.Text, out int rows);
-            if (prv_columns == true && prv_rows == true)
+            if (prv_columns == true && prv_rows == true && rows >= 0 && columns >= 0)
             {
                 WorkMas.CreateMas(in rows, in columns);
                 DataGT.ItemsSource = VisualArray.ToDataTable(WorkMas.dmas).DefaultView;
@@ -105,7 +105,7 @@ namespace PW2
         {
             Solution_TextBox.Clear();
             bool prv_range = Int32.TryParse(Range_TextBox.Text, out int range);
-            if (prv_range == true && WorkMas.dmas != null) //2-ое условие - проверка на заполнение без скелета
+            if (prv_range == true && WorkMas.dmas != null && range > 0) //2-ое условие - проверка на заполнение без скелета
             {
                 WorkMas.FillDMas(in range);//Обращение с передачей информации об диапазоне
                 DataGT.ItemsSource = VisualArray.ToDataTable(WorkMas.dmas).DefaultView; //Отображение таблицы с заполненными значениями
