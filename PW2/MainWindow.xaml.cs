@@ -43,12 +43,19 @@ namespace PW2
             };
             
             if (openfile.ShowDialog() == true) 
-            {                                
-                WorkMas.Open_File(openfile.FileName); //Обращение к функции с параметром (название текстового файла, в котором хранятся данные)
-                DataGT.ItemsSource = VisualArray.ToDataTable(WorkMas.dmas).DefaultView; //Отображение данных, считанных с файла
-                Solution_TextBox.Clear();
-                Solute_Button.IsEnabled = true;
-                Solute_Menu.IsEnabled = true;
+            {
+                try
+                {
+                    WorkMas.Open_File(openfile.FileName); //Обращение к функции с параметром (название текстового файла, в котором хранятся данные)
+                    DataGT.ItemsSource = VisualArray.ToDataTable(WorkMas.mas).DefaultView; //Отображение данных, считанных с файла
+                    Solution_TextBox.Clear();
+                    Solute_Button.IsEnabled = true;
+                    Solute_Menu.IsEnabled = true;
+                }
+                catch
+                {
+                    MessageBox.Show("Произошла ошибка считывания! Файл поврежден!", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
             }
         }
 
@@ -64,8 +71,15 @@ namespace PW2
 
             if (savefile.ShowDialog() == true)
             {                
-                WorkMas.twomas = true;                
-                WorkMas.Save_File(savefile.FileName); //Обращение к функции с параметром (аналогично предыдущему) 
+                WorkMas.twomas = true;
+                if (WorkMas.dmas != null)
+                {
+                    WorkMas.Save_File(savefile.FileName); //Обращение к функции с параметром (аналогично предыдущему) 
+                }
+                else
+                {
+                    MessageBox.Show("Нет данных для сохранения! Необходимо для начала создать массив", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
             }
         }
 
